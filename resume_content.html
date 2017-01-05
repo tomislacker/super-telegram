@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title><?=$thisResume->getHTMLName()?> | <?=$thisResume->getHTMLGenericShortTitle()?> | <?=$thisResume->getHTMLEmailAddr()?></title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="//yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" /> 
+    <link rel="stylesheet" type="text/css" href="resume.css" media="all" />
+    <style type="text/css" media="print">
+      .noPrintPlz
+      {
+        display: none;
+      }
+      /**
+       * Uncomment the below class to hide additional debug information in the
+       * markup
+       */
+      /*
+      .debugSpan { display: none; }
+      */
+      span.debugSpan
+      {
+        display: none;
+      }
+      
+      div.job
+      {
+       page-break-inside: avoid;
+      }
+  </style>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('ul.jobitems li, div.jobitems div').each(function(index) {
+        $(this).text("• " + $(this).text());
+      });
+    });
+  </script>
+</head>
+<body>
+<div id="doc2" class="yui-t7">
+    <div id="inner">
+        <div id="hd">
+            <div class="yui-gc">
+                <div class="yui-u first">
+                    <h1><?=$thisResume->getHTMLName()?></h1>
+                    <h2><?=$thisResume->getHTMLGenericTitle()?></h2>
+                </div>
+                <div class="yui-u">
+                    <div class="contact-info">
+                        <h3>&nbsp;</h3>
+                        <h3><a href="mailto:<?=$thisResume->getHTMLEmailAddr()?>"><?=$thisResume->getHTMLEmailAddr()?></a></h3>
+                        <h3><?=$thisResume->getHTMLPhoneNum()?></h3>
+                    </div><!--// .contact-info -->
+                </div>
+            </div><!--// .yui-gc -->
+        </div><!--// hd -->
+        <div id="bd">
+            <div id="yui-main">
+                <div class="yui-b">
+                    <div class="yui-gf">
+                        <div class="yui-u first">
+                            <h2>Profile</h2>
+                        </div>
+                        <div class="yui-u">
+                            <p class="enlarge">
+                                <?=$thisResume->getHTMLProfileContent()?>
+                            </p>
+                        </div>
+                    </div><!--// .yui-gf -->
+                    <div class="yui-gf">
+                        <div class="yui-u first">
+                            <h2>Traits</h2>
+                        </div>
+                        <div class="yui-u">
+                        
+                            <?php foreach ( $thisResume->getSkills() as $thisSkill ) { ?>
+                            
+                            <div class="talent">
+                              <h2><?=htmlentities($thisSkill->getHeader())?></h2>
+                              <p><?=htmlentities($thisSkill->getRawContent())?> </p>
+                            </div>
+                            
+                            <?php } ?>
+                            
+                        </div>
+                    </div><!--// .yui-gf -->
+                    <div class="yui-gf">
+                        <div class="yui-u first">
+                            <h2>Technical Skills</h2>
+                        </div>
+                        <div class="yui-u">
+                          <?php for ( $techColIdx = 0 ; $techColIdx < $thisResume->getTechSkillColCount() ; $techColIdx++ ) { ?>
+                          
+                            <ul class="talent">
+                              <?php for ( $techRowIdx = 0 ; $techRowIdx < $thisResume->getTechSkillRowCount() ; $techRowIdx++ ) { ?>
+
+                                <li<?=( ( $techRowIdx + 1) == $thisResume->getTechSkillRowCount() ? ' class="last"' : '')?>><?=htmlentities($thisResume->getTechSkillCell($techColIdx, $techRowIdx))?></li>
+                              <?php } ?>
+                              
+                            </ul>
+                          <?php } ?>
+                          
+                        </div>
+                    </div><!--// .yui-gf-->
+                    <div class="yui-gf">
+                        <div class="yui-u first">
+                            <h2>Experience</h2>
+                        </div><!--// .yui-u -->
+                        <div class="yui-u">
+                        
+                        <?php foreach ( $thisResume->getExperience() as $experienceIndex => $thisExperience ) { ?>
+                        
+                            <div class="job<?=( ( $experienceIndex + 1) == count($thisResume->getExperience()) ? ' last' : '' )?>">
+                                <h2><?=htmlentities($thisExperience->getName())?></h2>
+                                <h3><?=htmlentities($thisExperience->getPosition())?></h3>
+                                <h4><?=htmlentities($thisExperience->getStart())?> - <?=htmlentities($thisExperience->getEnd())?></h4>
+                                <?=PHP_EOL.$thisExperience->getContent()?>
+                            </div>
+                            
+                        <?php } ?>
+                        
+                        </div><!--// .yui-u -->
+                    </div><!--// .yui-gf -->
+                    <div class="yui-gf last">
+                        <div class="yui-u first">
+                            <h2>Education</h2>
+                        </div>
+                        <div class="yui-u">
+                            <h2>United States Marine Corps Reserve - Milwaukee, WI</h2>
+                            <h3>Team Leader - Infantryman</h3>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="yui-u">
+                            <h2>Milwaukee School of Engineering - Milwaukee, WI</h2>
+                            <h3>Computer Engineering, Management of Information Systems</h3>
+                        </div>
+                    </div><!--// .yui-gf -->
+                </div><!--// .yui-b -->
+            </div><!--// yui-main -->
+        </div><!--// bd -->
+        <div id="ft">
+            <p><?=$thisResume->getHTMLName()?> &mdash; <a href="mailto:<?=$thisResume->getHTMLEmailAddr()?>"><?=$thisResume->getHTMLEmailAddr()?></a> &mdash; <?=$thisResume->getHTMLPhoneNum()?></p>
+        </div><!--// footer -->
+    </div><!-- // inner -->
+</div><!--// doc -->
+</body>
+</html>
+
